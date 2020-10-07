@@ -1,5 +1,5 @@
 import json
-import Projeto_de_Sistema_de_Biblioteca.PathFinder as pf
+import PathFinder as pf
 
 
 def db_log_retriver():
