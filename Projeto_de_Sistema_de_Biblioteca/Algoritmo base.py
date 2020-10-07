@@ -1,5 +1,5 @@
 # A Base do programa da biblioteca
-import meus_arquivos_pessoais.Projeto_de_Sistema_de_Biblioteca.jdoarq as ps
+import Projeto_de_Sistema_de_Biblioteca.jdoarq as ps
 
 while True:
 

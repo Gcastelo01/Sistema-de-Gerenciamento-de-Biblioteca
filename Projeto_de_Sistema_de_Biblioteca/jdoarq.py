@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
-import meus_arquivos_pessoais.Projeto_de_Sistema_de_Biblioteca.funçoes.Funções_Biblioteca as func
-import meus_arquivos_pessoais.Projeto_de_Sistema_de_Biblioteca.funçoes.Json_Processor as jp
+import Projeto_de_Sistema_de_Biblioteca.funçoes.Funções_Biblioteca as func
+import Projeto_de_Sistema_de_Biblioteca.funçoes.Json_Processor as jp
 import shutil
 import mysql.connector.errors
 import _tkinter

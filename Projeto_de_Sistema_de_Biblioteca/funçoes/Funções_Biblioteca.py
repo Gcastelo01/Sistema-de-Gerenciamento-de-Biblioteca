@@ -1,7 +1,7 @@
 # A Base do programa d
 import mysql.connector as bd
 import PySimpleGUI as sg
-import meus_arquivos_pessoais.Projeto_de_Sistema_de_Biblioteca.funçoes.Json_Processor as jp
+import Projeto_de_Sistema_de_Biblioteca.funçoes.Json_Processor as jp
 
 livros = list()
 db_log = jp.db_log_retriver()
