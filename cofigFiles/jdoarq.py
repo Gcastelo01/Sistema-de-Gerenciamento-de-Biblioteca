@@ -1,9 +1,10 @@
 import PySimpleGUI as sg
-import funçoes.Funções_Biblioteca as func
-import funçoes.Json_Processor as jp
+import functions.libFunctions as func
+import functions.Json_Processor as jp
 import shutil
 import mysql.connector.errors
 import _tkinter
+
 img_dir = jp.img_retrivre()
 
 
