@@ -4,10 +4,11 @@ import _tkinter
 import mysql.connector.errors
 import PySimpleGUI as sg
 
-import functions.Json_Processor as jp
-import functions.libFunctions as func
+from libfunctions.Json_Processor import img_retrivre
+from libfunctions.libFunctions import logsis, cadastro_de_livro, emprestar_um_livro, pesquisa_no_bd, recebimento, \
+    emprestados, cadastro_db
 
-img_dir = jp.img_retrivre()
+img_dir = img_retrivre()
 
 
 def tela_de_cadastro():
@@ -63,8 +64,8 @@ def tela_de_cadastro():
 
                     if event3 == 'conf':
                         if values3['pass'] == values3['confpass'] and len(values3['pass']) >= 8:  # Verifica se a senha
-                            if func.cadastro_db(values3['newuser'],
-                                                values3['pass']):  # Está dentro dos valores estipulados.
+                            if cadastro_db(values3['newuser'],
+                                           values3['pass']):  # Está dentro dos valores estipulados.
                                 sg.PopupOK('Novo usuário Registrado!')
                                 tela_novocad.close()
                                 break
@@ -105,7 +106,7 @@ def tela_de_login():
             window.close()
             return None
         if event == '1':
-            if func.logsis(values['login'], values['senha']):
+            if logsis(values['login'], values['senha']):
                 window.Close()
                 return True
             else:
@@ -205,8 +206,8 @@ def menu_de_nlivros():
                 ''
             try:
 
-                func.cadastro_de_livro(values['0'], values['1'], values['2'], values['3'], values['4'], values['5'],
-                                       values['6'], values['7'], values['8'], values['9'], values['10'], img_path)
+                cadastro_de_livro(values['0'], values['1'], values['2'], values['3'], values['4'], values['5'],
+                                  values['6'], values['7'], values['8'], values['9'], values['10'], img_path)
                 window.close()
                 break
 
@@ -262,7 +263,7 @@ def busca_de_livro():
 
         if events == 'pesq':
 
-            resultado = func.pesquisa_no_bd(values['livro'])
+            resultado = pesquisa_no_bd(values['livro'])
 
             if len(resultado) == 0:
 
@@ -297,8 +298,8 @@ def menu_de_empréstimos():
 
             break
         elif events == '1':
-            func.emprestar_um_livro()
+            emprestar_um_livro()
         elif events == '2':
-            func.emprestados()
+            emprestados()
         elif events == '3':
-            func.recebimento()
+            recebimento()
