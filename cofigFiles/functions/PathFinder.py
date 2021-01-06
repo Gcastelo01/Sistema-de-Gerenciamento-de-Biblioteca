@@ -4,9 +4,9 @@ import json
 
 def lib_installer():
 
-    path = os.path.abspath("_build")
+    path = os.path.abspath("../_build")
     write_path = path
-    img_path = os.path.abspath('icons')
+    img_path = os.path.abspath('../icons')
 
     done = False
     if done is False:
@@ -36,7 +36,7 @@ def lib_installer():
 
 def path_invoke():
 
-    path = os.path.abspath("_build")
+    path = os.path.abspath("../_build")
 
     with open(os.path.join(path, 'UserAppInfo.json'), 'r') as f:
         return json.load(f)
