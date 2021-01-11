@@ -1,6 +1,6 @@
 import gi
 
-gi.require_version('Gtk', '3.0')
-from gi.Repository import Gtk
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
 
-class Window(Gtk.Window):
+class Window(Gtk.Window)
