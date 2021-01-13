@@ -41,5 +41,3 @@ def path_invoke():
     with open(os.path.join(path, 'UserAppInfo.json'), 'r') as f:
         return json.load(f)
 
-
-

@@ -1,5 +1,6 @@
 import json
-import PathFinder as pf
+from . import PathFinder as pf
+
 
 
 def db_log_retriver():

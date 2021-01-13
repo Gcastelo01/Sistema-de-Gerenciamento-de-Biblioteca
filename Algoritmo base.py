@@ -1,5 +1,6 @@
 # A Base do programa da biblioteca
-import cofigFiles.jdoarq as ps
+import cofigFiles
+ps = cofigFiles.jdoarq
 
 while True:
 
