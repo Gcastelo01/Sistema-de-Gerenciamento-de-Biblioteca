@@ -1,13 +1,13 @@
 # A Base do programa da biblioteca
-import cofigFiles
-ps = cofigFiles.jdoarq
+from cofigFiles import jdoarq as ps
+
 
 while True:
 
     '''Trecho do código responsável por gerenciar o login do usuário. caso o deu não seja true, o usuário fica preso
     em um loop até que acerte a senha ou desista de tentar e feche o programa'''
 
-    deu = ps.tela_de_login()
+    deu = ps.LoginScreen()
 
     if deu is None:
         break
@@ -17,7 +17,7 @@ while True:
 
 while deu == 'blz':
 
-    menu_de_opções = ps.tela_de_menu()
+    menu_de_opções = ps.MenuScreen()
     '''Aqui é a lógica de funcionamento principal do programa. De acordo com a seleção do usuário,
     o programa se encaminha para uma outra tela, de acordo com a seleção'''
 

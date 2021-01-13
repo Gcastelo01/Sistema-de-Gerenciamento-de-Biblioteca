@@ -3,11 +3,53 @@ import mysql.connector as bd
 import PySimpleGUI as sg
 import Json_Processor as jp
 
-livros = list()
 db_log = jp.db_log_retriver()
 img_dir = jp.img_retrivre()
 
 #TODO: Fazer a função de recuperação dos múltiplos usuários, permitindo que ele escolha qual livro deseja ver.
+
+
+
+class __DatabaseSetup__():
+    def __init__(self):
+        self.__cnx = bd.connect(user=db_log['user'], password=db_log['password'], host=db_log['host'], auth_plugin=db_log['auth_plugin'])
+        self.__user = self.__cnx.cursor()
+
+
+    def __databaseCheck(self, username):
+
+        self.__user.execute('SELECT * FROM login')
+        return self.__user.fetchall()
+
+
+
+class User(__DatabaseSetup__):
+
+    def __init__(self, username, password):
+        self.__username = username
+        self.__password = password
+
+    def cadastro_db(self):
+
+        """Insere dados de um novo usuário caso ele não exista nos registros do banco de dados """
+    
+        for v in self.__databaseCheck(self.__username):
+            if v[0] == self.__username:
+                return False
+
+        else:
+            self.__user.execute(f"INSERT INTO LOGIN (USUÁRIO, SENHA) VALUES('{self.__username}', '{self.__password}')")
+            self.__cnx.commit()
+            return True
+    
+    def loginSist(self):
+    
+        for v in self.__databaseCheck(self.__username):
+            if v[0] == self.__username and v[1] == self.__password:
+                return True
+        else:
+            return False
+
 
 
 class Livro():
@@ -89,41 +131,3 @@ class Livro():
     def multiplos_resultados(self, results: list):
         # Aqui vai entrar a lógica por trás da seleção de multiplos resultados
         return results[0] 
-
-
-
-class User():
-
-    def __init__(self, username, password):
-        self.__cnx = bd.connect(user=db_log['user'], password=db_log['password'], host=db_log['host'], auth_plugin=db_log['auth_plugin'])
-        self. __user = self.__cnx.cursor()
-        self.__username = username
-        self.__password = password
-
-
-    def __databaseCheck(self, username):
-
-        self.__user.execute('SELECT * FROM login')
-        return self.__user.fetchall()
-
-
-    def cadastro_db(self):
-
-        """Insere dados de um novo usuário caso ele não exista nos registros do banco de dados """
-    
-        for v in self.__databaseCheck(self.__username):
-            if v[0] == self.__username:
-                return False
-
-        else:
-            self.__user.execute(f"INSERT INTO LOGIN (USUÁRIO, SENHA) VALUES('{self.__username}', '{self.__password}')")
-            self.__cnx.commit()
-            return True
-    
-    def loginSist(self):
-    
-        for v in self.__databaseCheck(self.__username):
-            if v[0] == self.__username and v[1] == self.__password:
-                return True
-        else:
-            return False
