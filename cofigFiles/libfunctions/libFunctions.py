@@ -6,7 +6,7 @@ import Json_Processor as jp
 db_log = jp.db_log_retriver()
 img_dir = jp.img_retrivre()
 
-#TODO: Fazer a função de recuperação dos múltiplos usuários, permitindo que ele escolha qual livro deseja ver.
+#TODO: Fazer a função de recuperação dos múltiplos resultados, permitindo que ele escolha qual livro deseja ver.
 
 
 
@@ -21,6 +21,22 @@ class __DatabaseSetup__():
         self.__user.execute('SELECT * FROM login')
         return self.__user.fetchall()
 
+    def tagSearch(self, tag: tuple):
+        
+        self.__user.execute('SELECT TAGS, TÍTULOS FROM LIVROS')
+        __tagsntitles = self.__user.fetchall()
+        __books = list()
+
+        for tags in __tagsntitles:
+            for Tag in tags:
+                if Tag in tag:
+                    __books.append(tags[0])
+        else:
+            return "Nothing Found!"
+        
+        return __books
+
+        
 
 
 class User(__DatabaseSetup__):
@@ -52,24 +68,21 @@ class User(__DatabaseSetup__):
 
 
 
-class Livro():
-    def __init__(self):
-        self.cnx = bd.connect(user=db_log['user'], password=db_log['password'], host=db_log['host'], auth_plugin=db_log['auth_plugin'])
-        self.user = self.cnx.cursor()
+class Livro(__DatabaseSetup__):
 
-    def cadastro_de_livro(self, title, aut, edt, anp: int, edi, idi, ac: int, vol: int, rs, numpag: int, edc, img: str):
+    def cadastro_de_livro(self, title, aut, edt, anp: int, edi, idi, ac: int, vol: int, rs, numpag: int, edc, img: str, tag: tuple):
 
         """Ligação com o banco de dados, enviando os dados do novo livro recém cadastrado dentro da tela de cadastro"""
 
-        self.user.execute(f"INSERT INTO LIVROS VALUES('{title}', '{aut}', '{edt}', {anp}, {edi}, '{idi}', {ac}, {vol}, {rs}, "
-                    f"{numpag}, '{edc}', 'E','{img}')")
-        self.cnx.commit()
+        self.__user.execute(f"INSERT INTO LIVROS VALUES('{title}', '{aut}', '{edt}', {anp}, {edi}, '{idi}', {ac}, {vol}, {rs}, "
+                    f"{numpag}, '{edc}', 'E','{img}', '{tag}')")
+        self.__cnx.commit()
 
 
     def estado(self, titulo):
         
-        self.user.execute(f"SELECT * FROM EMPRESTADOS WHERE TÍTULO LIKE %{titulo}%;")
-        __result = self.user.fetchall()
+        self.__user.execute(f"SELECT * FROM EMPRESTADOS WHERE TÍTULO LIKE %{titulo}%;")
+        __result = self.__user.fetchall()
 
         return __result
 
@@ -89,11 +102,11 @@ class Livro():
                     data = str(data_de_emprestimo).replace('/', '')
                     datadev = (str(data_de_dev).replace('/', ''))
 
-                    self.user.execute(f"INSERT INTO EMPRESTADOS VALUES('{nome_do_credor}', '{titulo}', {codigo},"
+                    self.__user.execute(f"INSERT INTO EMPRESTADOS VALUES('{nome_do_credor}', '{titulo}', {codigo},"
                                  f"{data}, {datadev})")
 
-                    self.user.execute(F"UPDATE LIVROS SET STATUS_DO_LIVRO = 'E' WHERE TÍTULO = '{titulo}'")
-                    self.cnx.commit()
+                    self.__user.execute(F"UPDATE LIVROS SET STATUS_DO_LIVRO = 'E' WHERE TÍTULO = '{titulo}'")
+                    self.__cnx.commit()
 
     def receber(self, titulo):
         try:
@@ -104,27 +117,27 @@ class Livro():
 
         if __estado == 'E':
 
-            self.user.execute(f"UPDATE LIVROS SET STATUS_DO_LIVRO = 'NE' WHERE TÍTULO = '{titulo}'")
-            self.cnx.commit()
-            self.user.execute(f"DELETE FROM EMPRESTADOS WHERE NOME_DO_LIVRO = '{titulo}'")
-            self.cnx.commit()
+            self.__user.execute(f"UPDATE LIVROS SET STATUS_DO_LIVRO = 'NE' WHERE TÍTULO = '{titulo}'")
+            self.__cnx.commit()
+            self.__user.execute(f"DELETE FROM EMPRESTADOS WHERE NOME_DO_LIVRO = '{titulo}'")
+            self.__cnx.commit()
 
     def procurarDB(self, titulo):
         """Essa função é responsável por buscar dentro do banco de dados as informações referentes ao título do livro que
         foi pesquisa"""
 
-        self.user.execute(f"SELECT TÍTULO FROM LIVROS WHERE TÍTULO LIKE '%{titulo}%'")
-        tanto = self.user.fetchall()
+        self.__user.execute(f"SELECT TÍTULO FROM LIVROS WHERE TÍTULO LIKE '%{titulo}%'")
+        tanto = self.__user.fetchall()
 
         if len(tanto) > 1:
             esc = self.multiplos_resultados(tanto)
-            self.user.execute(f"SELECT * FROM LIVROS WHERE TÍTULO = '{esc}'")
-            resultado = self.user.fetchall()
+            self.__user.execute(f"SELECT * FROM LIVROS WHERE TÍTULO = '{esc}'")
+            resultado = self.__user.fetchall()
             return resultado
 
         else:
-            self.user.execute(f"SELECT * FROM LIVROS WHERE TÍTULO LIKE '%{titulo}%'")
-            resultado = self.user.fetchall()
+            self.__user.execute(f"SELECT * FROM LIVROS WHERE TÍTULO LIKE '%{titulo}%'")
+            resultado = self.__user.fetchall()
             return resultado
 
 
