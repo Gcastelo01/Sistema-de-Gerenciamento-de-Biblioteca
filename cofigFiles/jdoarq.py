@@ -14,4 +14,5 @@ class LoginScreen(Gtk.Window, User):
         Gtk.Window.__init__(self, title='Tela de Login', default_width=480, default_heigth=690)
         
         self.box = Gtk.Box(fill=True)
-        self.add
+        
+        self.add(self.box)

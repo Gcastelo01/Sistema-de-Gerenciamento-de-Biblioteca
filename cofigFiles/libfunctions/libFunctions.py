@@ -22,19 +22,17 @@ class __DatabaseSetup__():
         return self.__user.fetchall()
 
     def tagSearch(self, tag: tuple):
-        
-        self.__user.execute('SELECT TAGS, TÍTULOS FROM LIVROS')
-        __tagsntitles = self.__user.fetchall()
-        __books = list()
 
-        for tags in __tagsntitles:
-            for Tag in tags:
-                if Tag in tag:
-                    __books.append(tags[0])
-        else:
-            return "Nothing Found!"
-        
-        return __books
+        self.__user.execute('SELECT TAGS, TÍTULOS FROM LIVROS')
+        __tags = self.__user.fetchall()
+        __taglist = list()
+
+        for V in __tags:
+            __taglist.append(V[1])
+
+        for V in __taglist:
+            V.split(' ')
+
 
         
 
@@ -69,13 +67,17 @@ class User(__DatabaseSetup__):
 
 
 class Livro(__DatabaseSetup__):
+    def __init__(self):
+        self.__taglist = tuple()
 
-    def cadastro_de_livro(self, title, aut, edt, anp: int, edi, idi, ac: int, vol: int, rs, numpag: int, edc, img: str, tag: tuple):
+    def cadastro_de_livro(self, title, aut, edt, anp: int, edi, idi, ac: int, vol: int, rs, numpag: int, edc, img: str, tag: list):
 
         """Ligação com o banco de dados, enviando os dados do novo livro recém cadastrado dentro da tela de cadastro"""
+        self.__taglist = str(tag)
+        self.__taglist = (((self.__taglist.replace(',', '')).replace('[', '')).replace(']', '')).replace("'", '')
 
         self.__user.execute(f"INSERT INTO LIVROS VALUES('{title}', '{aut}', '{edt}', {anp}, {edi}, '{idi}', {ac}, {vol}, {rs}, "
-                    f"{numpag}, '{edc}', 'E','{img}', '{tag}')")
+                    f"{numpag}, '{edc}', 'E','{img}', '{self.__taglist}')")
         self.__cnx.commit()
 
 
