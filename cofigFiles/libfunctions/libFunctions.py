@@ -8,8 +8,6 @@ img_dir = jp.img_retrivre()
 
 #TODO: Fazer a função de recuperação dos múltiplos resultados, permitindo que ele escolha qual livro deseja ver.
 
-
-
 class __DatabaseSetup__():
     def __init__(self):
         self.__cnx = bd.connect(user=db_log['user'], password=db_log['password'], host=db_log['host'], auth_plugin=db_log['auth_plugin'])
@@ -26,13 +24,16 @@ class __DatabaseSetup__():
         self.__user.execute('SELECT TAGS, TÍTULOS FROM LIVROS')
         __tags = self.__user.fetchall()
         __taglist = list()
+        __bookInTag = list()
 
         for V in __tags:
-            __taglist.append(V[1])
+            __taglist = V[1].split(' ')
 
-        for V in __taglist:
-            V.split(' ')
+            for F in tag: 
+                if F in __taglist:
+                    __bookInTag.append(V[0])
 
+        return __bookInTag
 
         
 
@@ -74,7 +75,7 @@ class Livro(__DatabaseSetup__):
 
         """Ligação com o banco de dados, enviando os dados do novo livro recém cadastrado dentro da tela de cadastro"""
         self.__taglist = str(tag)
-        self.__taglist = (((self.__taglist.replace(',', '')).replace('[', '')).replace(']', '')).replace("'", '')
+        self.__taglist = ((((self.__taglist.replace(',', '')).replace('[', '')).replace(']', '')).replace("'", '')).lower()
 
         self.__user.execute(f"INSERT INTO LIVROS VALUES('{title}', '{aut}', '{edt}', {anp}, {edi}, '{idi}', {ac}, {vol}, {rs}, "
                     f"{numpag}, '{edc}', 'E','{img}', '{self.__taglist}')")
