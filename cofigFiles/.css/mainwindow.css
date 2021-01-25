@@ -1,4 +1,6 @@
 #logbutton{
-    height: 20px;   
-    width: 40px;
+    padding: 220px; 
+}
+#regbutton{
+    padding: 50px;
 }

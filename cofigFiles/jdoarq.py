@@ -18,19 +18,17 @@ class LoginScreen(Gtk.Window):
         self.add(self.box)
 
         self.loginButton = Gtk.Button(label="login")
-        self.loginButton.set_name('logbutton')
+        self.loginButton.set_css_name('logbutton')
+        
+        self.registerButton = Gtk.Button(label='Register')
+        self.registerButton.set_css_name("regbutt")
 
-        self.box.pack_start(self.loginButton, False, False, 6)
-        self.box.set_spacing(30)
-    
-    def style(self):
+        self.box.pack_start(self.loginButton, True, True, 1)
+        self.box.pack_end(self.registerButton, True, True, 1)
+        self.box.set_spacing(6)
+
         style_provider = Gtk.CssProvider()
-        style_provider.load_from_path(".cofigfiles.css")
-        Gtk.StyleContext.add_provider_for_screen(
-            Gtk.Screen.get_default(),
-            style_provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
+        style_provider.load_from_path("cofigFiles/.css/mainwindow.css")
 
 win = LoginScreen()
 win.connect('destroy', Gtk.main_quit)
