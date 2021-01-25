@@ -1,6 +1,4 @@
-#logbutton{
-    padding: 220px; 
-}
-#regbutton{
-    padding: 50px;
+.button{
+    background-color: black;
+    color: pink;
 }
