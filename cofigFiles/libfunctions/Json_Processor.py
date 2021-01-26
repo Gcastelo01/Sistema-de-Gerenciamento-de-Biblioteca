@@ -1,10 +1,10 @@
 import json
 import os.path
 
-
+"""
 def lib_installer():
 
-    path = os.path.abspath("../_build")
+    path = os.path.abspath("../.build")
     write_path = path
     img_path = os.path.abspath('../icons')
 
@@ -33,25 +33,26 @@ def lib_installer():
             with open(os.path.join(write_path, "UserAppInfo.json"), 'w') as file:
                 json.dump(dados, file, indent=4)
 
-
+"""
 def path_invoke():
 
-    path = os.path.abspath("../_build")
+    path = ".. .build"
 
     with open(os.path.join(path, 'UserAppInfo.json'), 'r') as f:
         return json.load(f)
 
 
 def db_log_retriver():
-    lib_installer()
+    #lib_installer()
     log = path_invoke()
 
     with open(log['DB_logger'], 'r') as p_json:
         return json.load(p_json)
 
-
+"""
 def img_retrivre():
 
     lib_installer()
     log = path_invoke()
     return log['Img_dir']
+"""
