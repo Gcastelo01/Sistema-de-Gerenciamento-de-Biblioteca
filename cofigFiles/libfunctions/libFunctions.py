@@ -1,10 +1,10 @@
 # A Base do programa 
 import mysql.connector as bd
 import PySimpleGUI as sg
-import Json_Processor as jp
+import Json_Processor
 
-db_log = jp.db_log_retriver()
-img_dir = jp.img_retrivre()
+db_log = Json_Processor.db_log_retriver()
+img_dir = Json_Processor.img_retrivre()
 
 #TODO: Fazer a função de recuperação dos múltiplos resultados, permitindo que ele escolha qual livro deseja ver.
 
