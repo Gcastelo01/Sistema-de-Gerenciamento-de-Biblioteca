@@ -1,2 +1,4 @@
-SISTEMA-DE-GERENCIAMENTO-DE-BIBLIOTECA/build
-SISTEMA-DE-GERENCIAMENTO-DE-BIBLIOTECA/dist
+build/
+dist/
+cofigFiles/__pycache__/
+__pycache__/
