@@ -1,8 +1,8 @@
 import gi
-import cofigFiles.libfunctions.libFunctions
+import cofigFiles.libFunctions
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 
 class LoginScreen(Gtk.Window):
@@ -27,7 +27,7 @@ class LoginScreen(Gtk.Window):
         label = Gtk.Label()
         label.set_label("Usuário: ")
         self.userName = Gtk.Entry()
-        
+        self.userName.set_name('entry')
         box_1.pack_start(label, True, False, 30)
         box_1.pack_start(self.userName, True, True, 30)
         self.listbox.add(row_1)
@@ -43,6 +43,7 @@ class LoginScreen(Gtk.Window):
         label.set_label("Senha: ")
         self.passwd = Gtk.Entry()
         self.passwd.set_visibility(False)
+        self.passwd.set_name('entry')
         self.passwd.set_invisible_char('*')
         box_2.pack_start(label, True, False, 30)
         box_2.pack_start(self.passwd, True, True, 30)
@@ -70,12 +71,33 @@ class LoginScreen(Gtk.Window):
     def loginClick(self, widgets):
         __user = self.userName.get_text()
         __pass = self.passwd.get_text()
-        userLogger = cofigFiles.libfunctions.libFunctions.User(__user, __pass)
-        userLogger.loginSist()
+        
+        if (__user != "") and (__pass != ""):
+            userLogger = cofigFiles.libFunctions.User(__user, __pass)
+            userLogger.loginSist()
+
+        else:
+            self.style('logError.css')
+
+
+    def style(self, cssname):
+        '''
+        Esse é o metodo de chamada do arquivo app.css
+        Esse metodo deve ser declarado dentro da classe App
+        ''' 
+        style_provider = Gtk.CssProvider()
+        style_provider.load_from_path(f"cofigFiles/.css/{cssname}")
+        Gtk.StyleContext.add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            style_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+            
 
 
     
 win = LoginScreen()
 win.connect('destroy', Gtk.main_quit)
 win.show_all()
+win.style('mainwindow.css')
 Gtk.main()

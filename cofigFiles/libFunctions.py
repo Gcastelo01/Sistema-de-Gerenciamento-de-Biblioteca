@@ -1,21 +1,76 @@
 # A Base do programa 
 import mysql.connector as bd
 import PySimpleGUI as sg
-import Json_Processor
+import os, sys, json
 
-db_log = Json_Processor.db_log_retriver()
 
 
 #TODO: Fazer a função de recuperação dos múltiplos resultados, permitindo que ele escolha qual livro deseja ver.
 
-class __DatabaseSetup__():
+class __JsonSettings__():
+   # def __init__(self):
+    
+    def __libInstaller__(self):
+        path = os.path.abspath("../_build")
+        write_path = path
+        img_path = os.path.abspath('../icons')
+
+        done = False
+        if done is False:
+            try:
+
+                with open(os.path.join(path, 'UserAppInfo.json'), 'r') as f:
+                    p_json = json.load(f)
+
+                if p_json['install'] == '1':
+                    done = True
+                    return True
+
+            except FileNotFoundError:
+
+                path = os.path.join(path, 'DataBaseAccessDB.json')
+
+                dados = {
+
+                    'install': '1',
+                    'DB_logger': path,
+                    'Img_dir': img_path
+
+                }
+                with open(os.path.join(write_path, "UserAppInfo.json"), 'w') as file:
+                    json.dump(dados, file, indent=4)
+
+
+    def __path_invoke__(self):
+
+        path = ".. .build"
+
+        with open(os.path.join(path, 'UserAppInfo.json'), 'r') as f:
+            return json.load(f)
+
+
+    def __db_log_retriver__(self):
+        self.__libInstaller__()
+        log = self.__path_invoke__()
+
+        with open(log['DB_logger'], 'r') as p_json:
+            return json.load(p_json)
+
+
+
+
+
+
+class __DatabaseSetup__(__JsonSettings__):
     def __init__(self):
-        self.__cnx = bd.connect(user=db_log['user'], password=db_log['password'], host=db_log['host'], auth_plugin=db_log['auth_plugin'])
+        self.db_log = self.__db_log_retriver__()
+        
+        self.__cnx = bd.connect(user=self.db_log['user'], password=self.db_log['password'], host=self.db_log['host'], auth_plugin=self.db_log['auth_plugin'])
         self.__user = self.__cnx.cursor()
 
 
     def __databaseCheck(self, username):
-
+        self.__libInstaller__()
         self.__user.execute('SELECT * FROM login')
         return self.__user.fetchall()
 
