@@ -1,0 +1,5 @@
+build/
+dist/
+cofigFiles/__pycache__/
+__pycache__/
+.Main.spec
